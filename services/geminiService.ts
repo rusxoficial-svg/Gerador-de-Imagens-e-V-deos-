@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Modality } from "@google/genai";
-import { GenerationSettings, ClothingView, VideoMovement } from "../types";
+import { GenerationSettings, ClothingView, VideoMovement, AspectRatio } from "../types";
 import { VIDEO_MOVEMENT_OPTIONS } from "../constants";
 
 // Helper to ensure API Key is selected for Veo
@@ -37,26 +37,45 @@ export const generateFashionImage = async (
   // Define pose and view instruction based on settings
   let poseInstruction = "";
   if (settings.clothingView === ClothingView.BACK) {
-    poseInstruction = "IMPORTANTE: A imagem de entrada mostra as COSTAS (parte traseira) da roupa. O modelo DEVE ser gerado virado DE COSTAS para a câmera para exibir corretamente o design da imagem de entrada. O rosto do modelo não deve estar visível ou deve estar de perfil virando para trás.";
+    poseInstruction = "A imagem de entrada mostra as COSTAS (parte traseira) da roupa. O modelo DEVE ser gerado virado DE COSTAS para a câmera. A estampa da imagem de entrada deve aparecer nas COSTAS do modelo.";
   } else {
-    poseInstruction = "O modelo deve estar de frente ou em uma pose de meio perfil que valorize a frente da roupa.";
+    poseInstruction = "O modelo deve estar de frente. A estampa da imagem de entrada deve aparecer no PEITO/FRENTE da roupa.";
   }
 
-  const prompt = `
-    Geração de fotografia de moda profissional.
-    Assunto principal: Um(a) ${settings.modelType} profissional vestindo EXATAMENTE a peça de roupa mostrada na imagem de entrada.
-    
-    INSTRUÇÃO DE POSE: ${poseInstruction}
+  // Map Aspect Ratio to specific framing instructions
+  const ratioInstructions: Record<AspectRatio, string> = {
+    [AspectRatio.SQUARE]: "Formato Quadrado (1:1). Composição centralizada, ideal para redes sociais.",
+    [AspectRatio.PORTRAIT]: "Formato Retrato Vertical (3:4). Enquadramento de moda editorial, corpo inteiro ou plano americano.",
+    [AspectRatio.LANDSCAPE]: "Formato Paisagem (16:9). Enquadramento cinematográfico amplo (wide shot) com espaço negativo no ambiente."
+  };
 
-    Ambiente/Cenário: ${settings.scenario}.
-    Iluminação/Clima: ${settings.lighting}.
-    Detalhes técnicos: Estilo editorial de alta moda, fotorrealista, resolução 8k, textura do tecido incrivelmente detalhada.
-    ${settings.customPrompt ? `Instruções adicionais do usuário: ${settings.customPrompt}` : ''}
+  const framingInstruction = ratioInstructions[settings.aspectRatio] || ratioInstructions[AspectRatio.PORTRAIT];
+
+  // REINFORCED PROMPT FOR PRODUCT FIDELITY
+  const prompt = `
+    ATUE COMO UM SISTEMA DE "VIRTUAL TRY-ON" (PROVADOR VIRTUAL) DE ALTA PRECISÃO.
     
-    REGRAS CRÍTICAS:
-    1. Garanta que a roupa da imagem de entrada seja o ponto focal e se adapte naturalmente ao corpo do modelo.
-    2. Mantenha as cores, estampas e texturas originais da roupa.
-    3. Se a instrução de pose for DE COSTAS, não gere o modelo de frente.
+    OBJETIVO PRIMÁRIO: Vestir o modelo digital com a peça de roupa fornecida, mantendo 100% de fidelidade à estampa, logotipo e design gráfico original.
+
+    ENTRADA (SOURCE): A imagem fornecida contém a "Verdade Absoluta" sobre a aparência da roupa.
+    
+    REGRAS DE OURO (FIDELIDADE DE ESTAMPA):
+    1. PROIBIDO ALTERAR A ESTAMPA: Não tente "melhorar", "recriar" ou "interpretar" o desenho. Copie os gráficos exatamente como são.
+    2. PRESERVAÇÃO DE TEXTO: Se houver texto escrito na roupa, a ortografia deve permanecer IDÊNTICA. Não altere as letras.
+    3. GEOMETRIA NATURAL: A única modificação permitida na estampa é a distorção natural causada pelas curvas do corpo, músculos e dobras do tecido.
+    4. CORES EXATAS: Mantenha a paleta de cores original da roupa.
+
+    CONFIGURAÇÃO DO MODELO E AMBIENTE:
+    - Modelo: ${settings.modelType}
+    - Pose: ${poseInstruction}
+    - Cenário: ${settings.scenario}
+    - Iluminação: ${settings.lighting}
+    - Enquadramento/Proporção: ${framingInstruction}
+    - Estilo: Fotografia comercial 8k, foco nítido na textura do tecido.
+    
+    ${settings.customPrompt ? `INSTRUÇÕES ADICIONAIS: ${settings.customPrompt}` : ''}
+
+    Resumo: O modelo deve parecer estar usando EXATAMENTE a mesma peça física da foto de referência.
   `;
 
   try {

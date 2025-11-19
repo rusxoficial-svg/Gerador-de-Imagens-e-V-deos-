@@ -3,11 +3,23 @@ import { ScenarioType, ModelType, LightingStyle, AspectRatio, ClothingView, Vide
 
 export const SCENARIO_OPTIONS = [
   { value: ScenarioType.STUDIO_MINIMAL, label: 'Estúdio: Minimalista Branco' },
+  { value: ScenarioType.CLASSIC_RUNWAY, label: 'Estúdio: Passarela de Desfile' },
   { value: ScenarioType.URBAN_STREET, label: 'Externo: Rua Urbana' },
+  { value: ScenarioType.EUROPEAN_STREET, label: 'Externo: Rua Histórica Europeia' },
   { value: ScenarioType.LUXURY_INTERIOR, label: 'Interno: Luxo' },
   { value: ScenarioType.MODERN_GYM, label: 'Interno: Academia Moderna' },
+  { value: ScenarioType.CROSSFIT_BOX, label: 'Interno: Box de Crossfit (Gritty)' },
+  { value: ScenarioType.BOXING_RING, label: 'Interno: Ringue de Boxe (Editorial)' },
+  { value: ScenarioType.LOCKER_ROOM, label: 'Interno: Vestiário Esportivo' },
+  { value: ScenarioType.INDUSTRIAL_WAREHOUSE, label: 'Interno: Galpão Industrial' },
   { value: ScenarioType.NATURE_BEACH, label: 'Externo: Praia (Golden Hour)' },
+  { value: ScenarioType.DESERT_DUNES, label: 'Externo: Dunas do Deserto' },
   { value: ScenarioType.NATURE_FOREST, label: 'Externo: Floresta' },
+  { value: ScenarioType.SNOW_MOUNTAIN, label: 'Externo: Neve / Montanha' },
+  { value: ScenarioType.ROOFTOP_CITY, label: 'Externo: Terraço Urbano (Rooftop)' },
+  { value: ScenarioType.BASKETBALL_COURT, label: 'Externo: Quadra de Basquete Urbana' },
+  { value: ScenarioType.SKATE_PARK, label: 'Externo: Pista de Skate de Concreto' },
+  { value: ScenarioType.SUBWAY_STATION, label: 'Urbano: Estação de Metrô Subterrânea' },
   { value: ScenarioType.NEON_CYBERPUNK, label: 'Criativo: Noite Neon' },
   { value: ScenarioType.ABSTRACT_ART, label: 'Criativo: Arte Abstrata' },
 ];
@@ -23,9 +35,14 @@ export const MODEL_OPTIONS = [
 
 export const LIGHTING_OPTIONS = [
   { value: LightingStyle.SOFT_BOX, label: 'Estúdio Suave (Soft Box)' },
+  { value: LightingStyle.STUDIO_HIGH_KEY, label: 'Estúdio High Key (Brilhante/Clean)' },
+  { value: LightingStyle.STUDIO_LOW_KEY, label: 'Estúdio Low Key (Sombrio/Moody)' },
   { value: LightingStyle.NATURAL_SUNLIGHT, label: 'Luz Natural do Dia' },
+  { value: LightingStyle.GOLDEN_HOUR, label: 'Golden Hour (Pôr do Sol)' },
   { value: LightingStyle.HARD_FLASH, label: 'Flash de Alto Contraste' },
-  { value: LightingStyle.DRAMATIC_RIM, label: 'Dramático / Moody' },
+  { value: LightingStyle.REMBRANDT, label: 'Clássico Rembrandt (Retrato)' },
+  { value: LightingStyle.DRAMATIC_RIM, label: 'Dramático (Luz de Borda)' },
+  { value: LightingStyle.NEON_GEL, label: 'Neon / Gel Colorido (Criativo)' },
   { value: LightingStyle.CINEMATIC, label: 'Cinematográfico' },
 ];
 

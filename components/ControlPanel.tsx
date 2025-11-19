@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Upload, Settings, Camera, Sun, User, FileText, Sparkles, RotateCw, Lock, Unlock } from 'lucide-react';
-import { GenerationSettings, ScenarioType, ModelType, LightingStyle, ClothingView } from '../types';
-import { SCENARIO_OPTIONS, MODEL_OPTIONS, LIGHTING_OPTIONS, VIEW_OPTIONS } from '../constants';
+import { Upload, Settings, Camera, Sun, User, FileText, Sparkles, RotateCw, Lock, Unlock, Monitor } from 'lucide-react';
+import { GenerationSettings, ScenarioType, ModelType, LightingStyle, ClothingView, AspectRatio } from '../types';
+import { SCENARIO_OPTIONS, MODEL_OPTIONS, LIGHTING_OPTIONS, VIEW_OPTIONS, RATIO_OPTIONS } from '../constants';
 
 interface ControlPanelProps {
   settings: GenerationSettings;
@@ -97,6 +97,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="w-full bg-stone-800 border border-stone-700 rounded-md px-3 py-2.5 text-sm text-white focus:ring-1 focus:ring-accent-500 focus:border-accent-500 outline-none transition-shadow"
           >
             {VIEW_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+          </select>
+        </div>
+
+        {/* Aspect Ratio */}
+        <div className="space-y-1.5">
+          <label className="text-sm text-stone-300 font-medium flex items-center gap-2">
+            <Monitor className="w-3.5 h-3.5 text-accent-500" /> Proporção / Formato
+          </label>
+          <select
+            value={settings.aspectRatio}
+            onChange={(e) => handleChange('aspectRatio', e.target.value as AspectRatio)}
+            className="w-full bg-stone-800 border border-stone-700 rounded-md px-3 py-2.5 text-sm text-white focus:ring-1 focus:ring-accent-500 focus:border-accent-500 outline-none transition-shadow"
+          >
+            {RATIO_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
 
